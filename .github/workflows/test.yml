@@ -29,8 +29,8 @@ jobs:
           nvm alias default 20.17.0
           node -v
           whereis node
-          echo "NVM_DIR=\"$HOME/.nvm\"" >> $GITHUB_ENV
-          echo "PATH=\"$PATH:$NVM_DIR/versions/node/v20.17.0/bin\"" >> $GITHUB_ENV
+          # echo "NVM_DIR=\"$HOME/.nvm\"" >> $GITHUB_ENV
+          # echo "PATH=\"$PATH:$NVM_DIR/versions/node/v20.17.0/bin\"" >> $GITHUB_ENV
 
       - name: Install node v20.17.0
         run: |
