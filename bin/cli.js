@@ -24,7 +24,13 @@ async function main() {
     execSync(`cd ${projectDir} && pnpm install && pnpm run build`);
 
     console.log("The installation is done!");
-    console.log(`CD into ${projectName} and run npm start to get started!`);
+    console.log(`
+Done. Now run:
+cd vue-tmp
+pnpm install
+pnpm format
+pnpm dev
+`);
   } catch (error) {
     console.error("An error occurred:", error.message);
     process.exit(1);
