@@ -22,7 +22,7 @@ jobs:
       - name: Install nvm and the version v20.17.0 of node.
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-          echo "NVM_DIR=\"$([ -z \"${XDG_CONFIG_HOME-}\" ] && printf %s \"${HOME}/.nvmn" || printf %s \"${XDG_CONFIG_HOME}/nvm\")\"" >> $GITHUB_ENV
+          # echo "NVM_DIR=\"$([ -z \"${XDG_CONFIG_HOME-}\" ] && printf %s \"${HOME}/.nvmn" || printf %s \"${XDG_CONFIG_HOME}/nvm\")\"" >> $GITHUB_ENV
           # echo "[ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"" >> $GITHUB_ENV
       - name: Install node v20.17.0
         run: |
