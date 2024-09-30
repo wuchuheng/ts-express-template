@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require("fs-extra");
+const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
@@ -15,23 +15,10 @@ if (process.argv.length < 3) {
   process.exit(1);
 }
 
-try {
-  fs.mkdirSync(projectDir);
-} catch (err) {
-  if (err.code === "EEXIST") {
-    console.log(
-      `The file ${projectName} already exist in the current directory, please give it another name.`
-    );
-  } else {
-    console.log(err);
-  }
-  process.exit(1);
-}
-
 async function main() {
   try {
     console.log("Copying project files...");
-    await fs.copy(path.join(__dirname, "../template"), projectDir);
+    await copyDir(path.join(__dirname, "../template"), projectDir);
 
     console.log("Installing dependencies...");
     execSync(`cd ${projectDir} && pnpm install && pnpm run build`);
@@ -39,8 +26,43 @@ async function main() {
     console.log("The installation is done!");
     console.log(`CD into ${projectName} and run npm start to get started!`);
   } catch (error) {
-    console.log(error);
+    console.error("An error occurred:", error.message);
+    process.exit(1);
   }
+}
+
+// Helper function to copy directory recursively
+function copyDir(src, dest) {
+  return new Promise((resolve, reject) => {
+    fs.mkdir(dest, { recursive: true }, (err) => {
+      if (err) return reject(err);
+
+      fs.readdir(src, { withFileTypes: true }, (err, entries) => {
+        if (err) return reject(err);
+
+        let completed = 0;
+        if (entries.length === 0) resolve();
+
+        entries.forEach((entry) => {
+          const srcPath = path.join(src, entry.name);
+          const destPath = path.join(dest, entry.name);
+
+          if (entry.isDirectory()) {
+            copyDir(srcPath, destPath)
+              .then(() => {
+                if (++completed === entries.length) resolve();
+              })
+              .catch(reject);
+          } else {
+            fs.copyFile(srcPath, destPath, (err) => {
+              if (err) return reject(err);
+              if (++completed === entries.length) resolve();
+            });
+          }
+        });
+      });
+    });
+  });
 }
 
 main();
