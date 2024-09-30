@@ -31,6 +31,9 @@ jobs:
           whereis node
           echo "NVM_DIR=\"$NVM_DIR\"" >> $GITHUB_ENV
           echo "PATH=\"$PATH:$NVM_DIR/versions/node/v20.17.0/bin\"" >> $GITHUB_ENV
+          ls -ahl $NVM_DIR
+          ls -ahl $NVM_DIR/versions/node
+          ls -ahl $NVM_DIR/versions/node/v20.17.0/bin
 
       - name: Install node v20.17.0
         run: |
