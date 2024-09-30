@@ -29,9 +29,9 @@ jobs:
           nvm install 20.17.0
           nvm alias default 20.17.0
 
-          # 2. Delete all files in the repository.
-           rm -rf .* *
-          ls -ahl
+          # 2. Create a new directory as the workspace.
+          mkdir my-workspace
+          cd my-workspace
 
           # 3. Install pnpm
           npm install -g pnpm
