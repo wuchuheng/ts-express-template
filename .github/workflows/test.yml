@@ -22,13 +22,13 @@ jobs:
       - name: Install nvm and the version v20.17.0 of node.
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-          nvm install 20.17.0
-          nvm alias default 20.17.0
           echo 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> $GITHUB_ENV
           echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $GITHUB_ENV
-      - name: Check the node version
+      - name: Install node v20.17.0
         run: |
           node -v
+          nvm install 20.17.0
+          nvm alias default 20.17.0
 
       # - name: Set up the node environment for the workflow.
       #   run: |
