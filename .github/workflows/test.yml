@@ -28,6 +28,8 @@ jobs:
         run: |
           npx @wuchuheng/express my-app
           cd my-app
+      - name: Install dependencies
+        run: |
           pnpm install
 
       - name: Run dev command and check for errors
