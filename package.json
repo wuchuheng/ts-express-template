@@ -1,14 +1,17 @@
 {
   "name": "@wuchuheng/express",
-  "version": "0.0.3",
+  "version": "0.0.4-beta.0",
   "description": "Express project template",
   "bin": {
-    "@username/my-custom-react-template": "./bin/cli.js"
+    "@wuchuheng/express": "./bin/cli.js"
   },
   "keywords": [
     "express",
     "typescript",
-    "template"
+    "template",
+    "cli",
+    "ts-express-template",
+    "ts-express"
   ],
   "author": "wuchuheng",
   "license": "MIT"
