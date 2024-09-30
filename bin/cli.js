@@ -24,7 +24,7 @@ async function main() {
     execSync(`cd ${projectDir} && pnpm install && pnpm run build`);
 
     console.log("The installation is done!");
-    console.log(` Done. Now run:`);
+    console.log(`Done. Now run:`);
 
     console.log(`\x1b[1m\x1b[32m
 cd ${projectName}

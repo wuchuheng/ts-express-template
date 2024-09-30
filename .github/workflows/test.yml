@@ -1,0 +1,43 @@
+name: Test Package
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Test package installation and setup
+        run: |
+          npx @wuchuheng/express my-app
+          cd my-app
+          pnpm install
+
+      - name: Run dev command and check for errors
+        run: |
+          cd my-app
+          timeout 5s pnpm dev || exit_code=$?
+          if [ $exit_code -eq 124 ]; then
+            echo "Dev command ran for 5 seconds without errors"
+            exit 0
+          else
+            echo "Dev command failed or exited prematurely"
+            exit 1
+          fi
