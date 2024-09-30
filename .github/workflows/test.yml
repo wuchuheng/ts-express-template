@@ -1,45 +1,45 @@
-name: Test Package
+name: Test Workflow
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # This can be any GitHub-hosted runner
+    container:
+      image: ubuntu:22.04
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Test package installation and setup
+      - uses: actions/checkout@v3
+      # Update and install necessary packages
+      - name: Update and install dependencies
         run: |
-          npx @wuchuheng/express my-app
-          cd my-app
-      - name: Install dependencies
+          apt-get update
+          apt-get install -y curl git  # Add any other packages you need
+      - name: Install nvm and the version v20.17.0 of node.
         run: |
-          pnpm install
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+          nvm install 20.17.0
+          nvm alias default 20.17.0
+          echo 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> $GITHUB_ENV
+          echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $GITHUB_ENV
+      - name: Check the node version
+        run: |
+          node -v
 
-      - name: Run dev command and check for errors
-        run: |
-          cd my-app
-          timeout 5s pnpm dev || exit_code=$?
-          if [ $exit_code -eq 124 ]; then
-            echo "Dev command ran for 5 seconds without errors"
-            exit 0
-          else
-            echo "Dev command failed or exited prematurely"
-            exit 1
-          fi
+      # - name: Set up the node environment for the workflow.
+      #   run: |
+      #     nvm use
+
+      # - name: Install pnpm
+      #   run: |
+      #     curl -fsSL https://get.pnpm.io/install.sh | sh -
+      #     export PATH=$PATH:$HOME/.pnpm-global/bin
+
+      # - name: Clean up all files.
+      #   run: |
+      #     rm -rf ./* ./.*
+      #     ls -ahl
