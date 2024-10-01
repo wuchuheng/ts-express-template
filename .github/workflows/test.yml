@@ -20,18 +20,15 @@ jobs:
               apt-get update
               apt-get install -y curl git  # Add any other packages you need
             "
-      - name: Install node
+      - name: Install nvm.
         run: |
           docker exec ${CONTAINER_NAME} bash -c "
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-
-            # Set up the nvm environment for the base environment.
-
-            # Reload the bash environment.
-            cat ~/.bashrc
-            source ~/.bashrc
-
-            # Install node
+          "
+      - name: Install Node.
+        run: |
+          docker exec ${CONTAINER_NAME} bash -c "
+            cat -n ~/.bashrc
             nvm install 20.17.0
             nvm alias default 20.17.0
             nvm use 20.17.0
