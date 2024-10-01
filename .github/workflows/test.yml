@@ -41,7 +41,7 @@ jobs:
 
           # 3. Install pnpm
           npm install -g pnpm
-          # pnpm -v
+          pnpm -v
 
           # 4. Test the cli.
           npx @wuchuheng/express my-app
