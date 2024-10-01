@@ -23,13 +23,12 @@ jobs:
       - name: Install nvm.
         run: |
           docker exec ${CONTAINER_NAME} bash -c "
-            echo '' > ~/.bashrc
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
           "
       - name: Install Node.
         run: |
           docker exec ${CONTAINER_NAME} bash -c "
-            cat -n ~/.bashrc
+            export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm install 20.17.0
             nvm alias default 20.17.0
             nvm use 20.17.0
@@ -38,12 +37,14 @@ jobs:
       - name: Install pnpm
         run: |
           docker exec ${CONTAINER_NAME} bash -c "
+            export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             npm install -g pnpm
             pnpm -v
           "
       - name: Test the cli
         run: |
           docker exec ${CONTAINER_NAME} bash -c "
+            export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             echo y | npx @wuchuheng/express my-app
           "
       # # Update and install necessary packages
