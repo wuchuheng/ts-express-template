@@ -26,10 +26,11 @@ jobs:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
             # Set up the nvm environment for the base environment.
-            echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc
+            echo \"export NVM_DIR=$HOME/.nvm\" >> ~/.bashrc
+            echo \"[ -s \\\"$NVM_DIR/nvm.sh\\\" ] && \\. \\\"$NVM_DIR/nvm.sh\\\"\" >> ~/.bashrc
 
             # Reload the bash environment.
+            cat ~/.bashrc
             source ~/.bashrc
 
             # Install node
