@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest # This can be any GitHub-hosted runner
     env:
       CONTAINER_NAME: "ubuntu-22-04"
+      WORKSPACE_DIR: "/workspace"
 
     steps:
       - name: Run the container
@@ -46,36 +47,28 @@ jobs:
           '
       - name: Test the cli
         run: |
-          docker exec ${CONTAINER_NAME} bash -c '
-            export NVM_DIR="$HOME/.nvm"; 
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            echo y | npx @wuchuheng/express my-app
-          '
-      # # Update and install necessary packages
-      # - name: Update and install dependencies
-      #   run: |
-      # - name: Install nvm and the version v20.17.0 of node.
-      #   run: |
-      #     # 1. Install node
-      #     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-      #     # Set up the node environment for the workflow.
-      #     export NVM_DIR="$HOME/.nvm"
-      #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-      #     nvm install 20.17.0
-      #     nvm alias default 20.17.0
-      #     nvm use 20.17.0
-
-      #     ls -ahl $NVM_DIR/versions/node/v20.17.0/bin
-
-      #     echo "The node version is $(node -v)"
-      #     echo "The npm version is $(npm -v)"
-
-      #     # 2. Create a new directory as the workspace.
-      #     mkdir my-workspace
-      #     cd my-workspace
-
-      #     # 3. Install pnpm
-      #     npm install -g pnpm
-      #     # 4. Test the cli.
-      #     echo $SHELL
-      #     echo y | npx @wuchuheng/express my-app
+          docker exec ${CONTAINER_NAME} bash -c "
+            export NVM_DIR=\"$HOME/.nvm\"; 
+            [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"
+            echo y | npx @wuchuheng/express ${WORKSPACE_DIR}
+          "
+      - name: Check the files is created when the cli is executed.
+        run: |
+          docker exec ${CONTAINER_NAME} bash -c "
+            cd ${WORKSPACE_DIR} 
+            ls -ahl
+            # Check the dependencies is installed, if not, exit with the error code 127.
+            if [ ! -d \"node_modules\" ]; then
+              echo \"Error: node_modules directory not found\"
+              exit 127
+            fi
+            
+            # Try to run the app in 10s, if not, exit with the specific error code.
+            timeout 10s bash -c \"
+              npm run dev
+            \"
+            if [ $? -ne 0 ]; then
+              echo \"Error: app not started\"
+              exit 127
+            fi
+          "
