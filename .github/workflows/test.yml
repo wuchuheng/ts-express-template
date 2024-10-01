@@ -50,12 +50,13 @@ jobs:
           docker exec ${CONTAINER_NAME} bash -c "
             export NVM_DIR=\"$HOME/.nvm\"; 
             [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"
-            echo y | npx @wuchuheng/express ${WORKSPACE_DIR}
+            cd ${WORKSPACE_DIR}
+            echo y | npx @wuchuheng/express my-app
           "
       - name: Check the files is created when the cli is executed.
         run: |
           docker exec ${CONTAINER_NAME} bash -c "
-            cd ${WORKSPACE_DIR} 
+            cd ${WORKSPACE_DIR}/my-app
             ls -ahl
             # Check the dependencies is installed, if not, exit with the error code 127.
             if [ ! -d \"node_modules\" ]; then
