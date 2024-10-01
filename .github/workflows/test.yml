@@ -31,24 +31,26 @@ jobs:
             echo hello
             export NVM_DIR="$HOME/.nvm"; 
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            # nvm install 20.17.0
-            # nvm alias default 20.17.0
-            # nvm use 20.17.0
-            # node -v
+            nvm install 20.17.0
+            nvm alias default 20.17.0
+            nvm use 20.17.0
+            node -v
           '
       - name: Install pnpm
         run: |
-          docker exec ${CONTAINER_NAME} bash -c "
-            export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          docker exec ${CONTAINER_NAME} bash -c '
+            export NVM_DIR="$HOME/.nvm"; 
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             npm install -g pnpm
             pnpm -v
-          "
+          '
       - name: Test the cli
         run: |
-          docker exec ${CONTAINER_NAME} bash -c "
-            export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          docker exec ${CONTAINER_NAME} bash -c '
+            export NVM_DIR="$HOME/.nvm"; 
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             echo y | npx @wuchuheng/express my-app
-          "
+          '
       # # Update and install necessary packages
       # - name: Update and install dependencies
       #   run: |
