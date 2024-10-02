@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  test-express-cli-installation-and-execution:
     runs-on: ubuntu-latest # This can be any GitHub-hosted runner
     env:
       CONTAINER_NAME: "ubuntu-22-04"
@@ -74,10 +74,27 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd my-app
             
-            # Try to execute the programm in 10 seconds with the cmd: pnpm run dev, if not, exit code 127.
-            timeout 10s pnpm run dev
+            # Start the program in the background and capture its PID
+            pnpm run dev & APP_PID=$!
+
+            # Wait for 10 seconds
+            sleep 10
+
+            # Check if the process is still running
+            if ps -p $APP_PID > /dev/null; then
+              # Send SIGINT (equivalent to Ctrl+C) to the program
+              kill -SIGINT $APP_PID
+            else
+              echo "Error: The program has already exited unexpectedly."
+              exit 127
+            fi
+
+            # Wait for the program to finish
+            wait $APP_PID
+
+            # Check the exit status
             if [ $? -ne 0 ]; then
-              echo "Error: The programm can not be executed."
+              echo "Error: The program could not be executed or exited with an error."
               exit 127
             fi
           '
