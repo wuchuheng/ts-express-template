@@ -61,8 +61,23 @@ jobs:
             ls -ahl
             
             # Check the dependencies is installed or not,
-            if [ ! -d node_module ]; then
+            if [ ! -d node_modules ]; then
               echo "Error: The dependencies is not installed."
+              exit 127
+            fi
+          '
+
+      - name: Check the programm can be executed or not. if not, exit code 127.
+        run: |
+          docker exec ${CONTAINER_NAME} bash -c '
+            export NVM_DIR="$HOME/.nvm"; 
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            cd my-app
+            
+            # Try to execute the programm in 10 seconds with the cmd: pnpm run dev, if not, exit code 127.
+            timeout 10s pnpm run dev
+            if [ $? -ne 0 ]; then
+              echo "Error: The programm can not be executed."
               exit 127
             fi
           '
