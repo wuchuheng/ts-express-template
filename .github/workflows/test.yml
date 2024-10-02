@@ -47,8 +47,22 @@ jobs:
           '
       - name: Test the cli
         run: |
-          docker exec ${CONTAINER_NAME} bash -c '
-            export NVM_DIR="$HOME/.nvm"; 
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          docker exec ${CONTAINER_NAME} bash -c "
+            export NVM_DIR=\"$HOME/.nvm\"; 
+            [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"
+            mkdir -p ${WORKSPACE_DIR}
+            cd ${WORKSPACE_DIR}
             echo y | npx @wuchuheng/express my-app
-          '
+          "
+      - name: Check the files is created when the cli is executed.
+        run: |
+          docker exec ${CONTAINER_NAME} bash -c "
+            cd ${WORKSPACE_DIR}/my-app
+            ls -ahl
+            
+            # Check the dependencies is installed, if not, exit code 127.
+            if [ ! -d \"node_modules\" ]; then
+              echo \"Error: node_modules directory not found\"
+              exit 127
+            fi
+          "
