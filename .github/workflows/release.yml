@@ -36,6 +36,8 @@ jobs:
       - name: Create a new commit and push to main
         run: |
           git add package.json
+          git config --local user.email "root@wuchuheng.com"
+          git config --local user.name "wuchuheng"
           git commit -m "Bump version to $VERSION"
 
       - name: Create a new commit and push to main
