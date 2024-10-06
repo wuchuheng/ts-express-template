@@ -25,19 +25,9 @@ jobs:
 
       - name: Update new version to package.json
         run: |
-          git config --local user.email "root@wuchuheng.com"
-          git config --local user.name "wuchuheng"
           VERSION=${GITHUB_REF#refs/tags/}
-          git checkout -b temp-branch
-          git add package.json
-          git commit -m "Bump version to ${VERSION#v}"
-          git push origin temp-branch:main
-          git push --delete origin temp-branch
+          pnpm version $VERSION --no-git-tag-version
 
-      - name: Update version in package.json
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          pnpm version ${VERSION#v} --no-git-tag-version
       - name: Publish to NPM
         run: pnpm publish --no-git-checks
         env:
