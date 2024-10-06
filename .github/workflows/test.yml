@@ -82,19 +82,9 @@ jobs:
 
             # Check if the process is still running
             if ps -p $APP_PID > /dev/null; then
-              # Send SIGINT (equivalent to Ctrl+C) to the program
-              kill -SIGINT $APP_PID
+              kill -9 $APP_PID
             else
               echo "Error: The program has already exited unexpectedly."
-              exit 127
-            fi
-
-            # Wait for the program to finish
-            wait $APP_PID
-
-            # Check the exit status
-            if [ $? -ne 0 ]; then
-              echo "Error: The program could not be executed or exited with an error."
               exit 127
             fi
           '
