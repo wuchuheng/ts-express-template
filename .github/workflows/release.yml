@@ -32,3 +32,16 @@ jobs:
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create a new commit and push to main
+        run: |
+          git add package.json
+          git commit -m "Bump version to $VERSION"
+
+      - name: Create a new commit and push to main
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          tags: ${{ github.ref_name }}
