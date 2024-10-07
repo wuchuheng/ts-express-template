@@ -36,8 +36,8 @@ jobs:
       - name: Commit and push changes
         run: |
           # Set username and email for git
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "wuchuheng"
+          git config --global user.email "root@wuchuheng.com"
           git checkout -b main
 
           git add .
