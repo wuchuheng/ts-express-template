@@ -50,4 +50,3 @@ jobs:
           commit_user_name: wuchuheng
           commit_user_email: root@wuchuheng.com # defaults to "41898282+github-actions[bot]@users.noreply.github.com"
           commit_author: wuchuheng<root@wuchuheng.com> # defaults to "username <username@users.noreply.github.com>", where "username" belongs to the author of the commit that triggered the run
-          create_branch: true
