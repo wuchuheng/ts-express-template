@@ -33,6 +33,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # The permission to write for the repository has to be maked in the repository > settings > action > Workflow permissions
       - name: Commit and push changes
         run: |
           # Set username and email for git
