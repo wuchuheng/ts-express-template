@@ -28,10 +28,10 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/}
           pnpm version $VERSION --no-git-tag-version
 
-      # - name: Publish to NPM
-      #   run: pnpm publish --no-git-checks
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to NPM
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit and push changes
         run: |
@@ -41,7 +41,7 @@ jobs:
           git checkout -b main
 
           git add .
-          git commit -m "version: tag a new version:"
+          git commit -m "Bump version to ${GITHUB_REF#refs/tags/}"
           git remote add token https://${GIT_ACCESS_TOKEN}@github.com/wuchuheng/ts-express-template.git
 
           git push token main
