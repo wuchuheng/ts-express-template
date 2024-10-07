@@ -33,20 +33,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Create a new commit and push to main
-        run: |
-          git add package.json
-          git config --local user.email "root@wuchuheng.com"
-          git config --local user.name "wuchuheng"
-          git add .
-          git status
-
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: main
-          commit_message: "version: Bump version to $VERSION"
-          # Optional commit user and author settings
-          commit_user_name: wuchuheng
-          commit_user_email: root@wuchuheng.com # defaults to "41898282+github-actions[bot]@users.noreply.github.com"
-          commit_author: wuchuheng<root@wuchuheng.com> # defaults to "username <username@users.noreply.github.com>", where "username" belongs to the author of the commit that triggered the run
+          commit_message: "version: Bump version to ${{ github.ref_name }}"
+          commit_user_name: GitHub Action
+          commit_user_email: action@github.com
+          commit_author: GitHub Action <action@github.com>
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
