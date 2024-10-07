@@ -40,8 +40,14 @@ jobs:
           git config --local user.name "wuchuheng"
           git add .
           git status
-          git commit -m "Bump version to $VERSION"
 
-      - name: Push changes
-        run: |
-          git push origin HEAD:main
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: "version: Bump version to $VERSION"
+          # Optional commit user and author settings
+          commit_user_name: wuchuheng
+          commit_user_email: root@wuchuheng.com # defaults to "41898282+github-actions[bot]@users.noreply.github.com"
+          commit_author: wuchuheng<root@wuchuheng.com> # defaults to "username <username@users.noreply.github.com>", where "username" belongs to the author of the commit that triggered the run
+          create_branch: true
