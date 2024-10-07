@@ -34,12 +34,15 @@ jobs:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          branch: main
-          commit_message: "docs: Update the new version: ${{ env.TAG_NAME }} to README.md"
-          # Optional commit user and author settings
-          commit_user_name: GitHub Actions [Bot] # defaults to "github-actions[bot]"
-          commit_user_email: root@wuchuheng.com # defaults to "41898282+github-actions[bot]@users.noreply.github.com"
-          commit_author: wuchuheng<root@wuchuheng.com> # defaults to "username <username@users.noreply.github.com>", where "username" belongs to the author of the commit that triggered the run
-          create_branch: true
+        run: |
+          # Set username and email for git
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "version: tag a new version:"
+
+          git push https://${GITHUB_TOKEN}@github.com/wuchuheng/ts-express-template.git main
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
