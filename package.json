@@ -1,6 +1,6 @@
 {
   "name": "@wuchuheng/express",
-  "version": "0.0.65",
+  "version": "1.0.1",
   "description": "Express project template",
   "bin": {
     "@wuchuheng/express": "./bin/cli.js"
