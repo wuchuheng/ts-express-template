@@ -38,6 +38,7 @@ jobs:
           # Set username and email for git
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b main
 
           git add .
           git commit -m "version: tag a new version:"
