@@ -42,6 +42,8 @@ jobs:
 
           git add .
           git commit -m "version: tag a new version:"
-          git remote add token https://${{ secrets.GIT_ACCESS_TOKEN }}@github.com/wuchuheng/ts-express-template.git
+          git remote add token https://${GIT_ACCESS_TOKEN}@github.com/wuchuheng/ts-express-template.git
 
           git push token main
+        env:
+          GIT_ACCESS_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
