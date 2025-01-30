@@ -2,6 +2,10 @@
   "name": "@wuchuheng/express",
   "version": "1.0.1",
   "description": "Express project template",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wuchuheng/ts-express-template"
+  },
   "bin": {
     "@wuchuheng/express": "./bin/cli.js"
   },
