@@ -1,6 +1,7 @@
-.vscode
+.vscode/
 node_modules
 dist
 .git
 .github
 .gitignore
+!template/.vscode
